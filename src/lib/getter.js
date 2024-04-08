@@ -15,6 +15,16 @@ export function createBook(book) {
   };
 }
 
+export async function getBooksByKeyword(keyword) {
+  const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${keyword}&langRestrict=ja&maxResults=20&printType=books`);
+  const result = await res.json();
+  const books = [];
+  for (const b of result.items) {
+    books.push(createBook(b));
+  }
+  return books;
+}
+
 export async function getAllReviews() {
   return await prisma.reviews.findMany({
     orderBy: {
