@@ -25,6 +25,22 @@ export async function getBooksByKeyword(keyword) {
   return books;
 }
 
+// id値をキーに書籍情報を取得
+export async function getBookById(id) {
+  const res = await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`);
+  const result = await res.json();
+  return createBook(result);
+}
+
+// id値をキーにレビュー情報を取得
+export async function getReviewById(id) {
+  return await prisma.reviews.findUnique({
+    where: {
+      id: id
+    }
+  });
+}
+
 export async function getAllReviews() {
   return await prisma.reviews.findMany({
     orderBy: {
